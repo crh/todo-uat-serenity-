@@ -1,0 +1,6 @@
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/actors/TodoActor.java
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/interactions/Locators.java
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/questions/TodoQuestions.java
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/tasks/AddTodoTask.java
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/tasks/DeleteTodoTask.java
+/home/cherlamb/code/todo-uat-serenity/uat/src/test/java/com/todo/uat/tests/TodoSerenityBDDTests.java

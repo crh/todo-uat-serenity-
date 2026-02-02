@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <div class="input-area">
+        <input type="text" id="new-todo" data-testid="new-todo" placeholder="Add a new todo...">
+        <button id="add-todo" data-testid="add-todo">Add</button>
+    </div>
+
+    <ul id="todo-list" data-testid="todo-list">
+        <!-- Todo items will be rendered here -->
+    </ul>
+
+    <button id="reset-button" style="display: none;">Reset Storage</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
