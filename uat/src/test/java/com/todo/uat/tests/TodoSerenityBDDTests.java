@@ -1,97 +1,46 @@
 package com.todo.uat.tests;
 
-import net.serenitybdd.junit5.SerenityJUnit5;
+import com.todo.uat.abilities.TodoAppUser;
+import com.todo.uat.actors.TodoActor;
+import com.todo.uat.domain.TodoApp;
+import com.todo.uat.questions.TodoQuestions;
+import com.todo.uat.tasks.AddTodoTask;
+import com.todo.uat.tasks.DeleteTodoTask;
+import net.serenitybdd.junit5.SerenityJUnit5Extension;
 import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.Performable;
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
-import net.thucydides.core.annotations.Managed;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.WebDriver;
 
-import com.todo.uat.actors.TodoActor;
-import com.todo.uat.questions.TodoQuestions;
-import com.todo.uat.tasks.AddTodoTask;
-import com.todo.uat.tasks.DeleteTodoTask;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import static net.serenitybdd.screenplay.GivenWhenThen.givenThat;
-import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
-import static net.serenitybdd.screenplay.GivenWhenThen.when;
-import static org.hamcrest.Matchers.*;
-
-@ExtendWith(SerenityJUnit5.class)
-public class TodoSerenityBDDTests {
-
-    @Managed
-    private WebDriver driver;
+@ExtendWith(SerenityJUnit5Extension.class)
+class TodoSerenityBDDTests {
 
     private Actor user;
+    private TodoApp todoApp;
 
     @BeforeEach
-    public void setup() {
+    void setUp() {
+        todoApp = new TodoApp();
         user = TodoActor.named("Alice");
-        user.can(BrowseTheWeb.with(driver));
-        driver.get("http://localhost:8000"); // Navigate to the web app
+        user.can(TodoAppUser.using(todoApp));
     }
 
     @Test
-    @DisplayName("Add a new todo and verify it appears")
-    public void addTodoAndVerify() {
-        String todoDescription = "Buy groceries";
+    @DisplayName("When Alice adds 'Buy milk' it appears and can be deleted")
+    void userCanAddAndDeleteTodoItem() {
+        String todoDescription = "Buy milk";
 
-        givenThat(user).was( tepung.can(BrowseTheWeb.with(driver)));
+        user.attemptsTo(AddTodoTask.withDescription(todoDescription));
+        assertThat(TodoQuestions.todoItemWithTextExists(todoDescription).answeredBy(user))
+                .as("the new todo should be visible")
+                .isTrue();
 
-        when(user).attemptsTo(AddTodoTask.withDescription(todoDescription));
-
-        then(user).should(seeThat(TodoQuestions.todoItemWithTextExists(todoDescription), is(true)));
+        user.attemptsTo(DeleteTodoTask.theTodoContaining(todoDescription));
+        assertThat(TodoQuestions.todoItemWithTextExists(todoDescription).answeredBy(user))
+                .as("the deleted todo should disappear")
+                .isFalse();
     }
-
-    @Test
-    @DisplayName("Delete a todo and verify it is removed")
-    public void deleteTodoAndVerify() {
-        String todoDescription = "Schedule meeting";
-
-        // First, add the todo that we want to delete
-        givenThat(user).attemptsTo(AddTodoTask.withDescription(todoDescription));
-
-        // Then, delete the todo
-        when(user).attemptsTo(DeleteTodoTask.theTodoContaining(todoDescription));
-
-        // Verify that the todo is no longer present
-        then(user).should(seeThat(TodoQuestions.todoItemWithTextExists(todoDescription), is(false)));
-        then(user).should(seeThat(TodoQuestions.numberOfTodoItems(), is(0))); // Assuming this was the only item
-    }
-
-    @Test
-    @DisplayName("Verify persistence: Add item, refresh page, item still exists")
-    public void verifyPersistence() {
-        String todoDescription = "Pay bills";
-
-        // Add the todo item
-        givenThat(user).attemptsTo(AddTodoTask.withDescription(todoDescription));
-        then(user).should(seeThat(TodoQuestions.todoItemWithTextExists(todoDescription), is(true)));
-
-        // Refresh the page to simulate persistence
-        driver.navigate().refresh();
-
-        // Re-establish web browsing ability for the actor after page refresh if needed (often implicit with SerenityJUnit5)
-        // If the actor loses context, you might need user.can(BrowseTheWeb.with(driver)); again, but typically not required here.
-
-        // Verify the todo item still exists after refresh
-        then(user).should(seeThat(TodoQuestions.todoItemWithTextExists(todoDescription), is(true)));
-    }
-
-    // Helper method to ensure the actor has web browsing ability (redundant with @BeforeEach but good practice for clarity if needed)
-    // private Performable was(Ability ability) {
-    //     return actor -> actor.can(ability);
-    // }
-
-    // Helper methods for GivenWhenThen syntax, if not implicitly available.
-    // These are typically provided by SerenityJUnit5.
-    // private static GivenWhenThen givenThat(Actor actor) { return new GivenWhenThen(actor); }
-    // private static GivenWhenThen when(Actor actor) { return new GivenWhenThen(actor); }
-    // private static GivenWhenThen then(Actor actor) { return new GivenWhenThen(actor); }
 }

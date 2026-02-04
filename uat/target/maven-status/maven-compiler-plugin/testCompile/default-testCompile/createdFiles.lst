@@ -1,0 +1,14 @@
+net/serenitybdd/screenplay/targets/Target.class
+com/todo/uat/tests/TodoSerenityBDDTests.class
+com/todo/uat/actors/TodoActor.class
+com/todo/uat/questions/TodoQuestions.class
+net/serenitybdd/screenplay/questions/Question.class
+com/todo/uat/tasks/AddTodoTask.class
+com/todo/uat/tasks/DeleteTodoTask.class
+com/todo/uat/domain/TodoApp.class
+com/todo/uat/abilities/TodoAppUser.class
+net/serenitybdd/screenplay/Task.class
+net/serenitybdd/screenplay/Performable.class
+com/todo/uat/tests/TodoAppTest.class
+net/serenitybdd/screenplay/Actor.class
+net/serenitybdd/screenplay/Ability.class

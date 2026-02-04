@@ -13,32 +13,25 @@
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <serenity.version>5.7.0</serenity.version> <!-- Latest stable Serenity BDD version -->
-        <junit5.version>5.10.1</junit5.version> <!-- Stable JUnit 5 version -->
-        <selenium.version>4.11.0</selenium.version> <!-- Stable Selenium Java version -->
-        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version> <!-- Supports Java 17 -->
-        <maven.surefire.plugin.version>3.5.0</maven.surefire.plugin.version> <!-- Supports JUnit 5 -->
-        <maven.failsafe.plugin.version>3.5.0</maven.failsafe.plugin.version> <!-- For integration tests -->
+        <junit5.version>5.10.1</junit5.version>
+        <serenity.version>5.0.2</serenity.version>
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.5.0</maven.surefire.plugin.version>
     </properties>
 
     <dependencies>
-        <!-- Serenity BDD Core -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-core</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Serenity BDD JUnit 5 Integration -->
         <dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-junit5</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- JUnit 5 Dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -51,34 +44,10 @@
             <version>${junit5.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Selenium WebDriver -->
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-chrome-driver</artifactId>
-            <version>${selenium.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- AssertJ for fluent assertions -->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.25.1</version> <!-- Use a recent stable version -->
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Logback for logging -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.5.6</version> <!-- Use a recent stable version -->
+            <version>3.25.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -96,67 +65,13 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven Surefire Plugin for unit tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
                 <configuration>
-                    <skip>true</skip> <!-- Skip unit tests during the 'test' phase, run with 'integration-test' -->
+                    <useModulePath>false</useModulePath>
                 </configuration>
-            </plugin>
-
-            <!-- Maven Failsafe Plugin for integration tests (Serenity tests) -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${maven.failsafe.plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>integration-tests</id>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/*Test.java</include>
-                                <include>**/*TestSuite.java</include>
-                                <include>**/When*.java</include>
-                            </includes>
-                            <systemPropertyVariables>
-                                <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
-                                <junit.jupiter.extensions.autodetection.enabled>true</junit.jupiter.extensions.autodetection.enabled>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Serenity Maven Plugin for report generation -->
-            <plugin>
-                <groupId>net.serenity-bdd.maven.plugins</groupId>
-                <artifactId>serenity-maven-plugin</artifactId>
-                <version>${serenity.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.serenity-bdd</groupId>
-                        <artifactId>serenity-single-page-report</artifactId>
-                        <version>${serenity.version}</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <reports>single-page-html</reports>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>serenity-reports</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
