@@ -1,8 +1,9 @@
 package com.todo.uat.questions;
 
 import com.todo.uat.abilities.TodoAppUser;
-import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.questions.Question;
+import com.todo.uat.screenplay.questions.Question;
+
+import java.util.Objects;
 
 public final class TodoQuestions {
 
@@ -11,9 +12,10 @@ public final class TodoQuestions {
     }
 
     public static Question<Boolean> todoItemWithTextExists(String text) {
+        Objects.requireNonNull(text);
         return Question.about("todo item with text '" + text + "' exists", actor -> {
             TodoAppUser ability = actor.abilityTo(TodoAppUser.class);
-            return ability.getTodoApp().containsTodo(text);
+            return ability.contains(text);
         });
     }
 }

@@ -1,8 +1,9 @@
 package com.todo.uat.tasks;
 
 import com.todo.uat.abilities.TodoAppUser;
-import net.serenitybdd.screenplay.Actor;
-import net.serenitybdd.screenplay.Task;
+import com.todo.uat.screenplay.Task;
+
+import java.util.Objects;
 
 public final class AddTodoTask {
 
@@ -11,9 +12,10 @@ public final class AddTodoTask {
     }
 
     public static Task withDescription(String description) {
-        return Task.where("Add the todo item '#description'", actor -> {
+        Objects.requireNonNull(description);
+        return Task.where("Add the todo item '" + description + "'", actor -> {
             TodoAppUser ability = actor.abilityTo(TodoAppUser.class);
-            ability.getTodoApp().addTodo(description);
+            ability.addTodo(description);
         });
     }
 }

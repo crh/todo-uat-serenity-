@@ -46,3 +46,11 @@ To convert the aggregate HTML report to PDF, run the following command in your t
 google-chrome --headless --print-to-pdf=target/site/serenity/report.pdf target/site/serenity/index.html
 ```
 This will create a `report.pdf` file in the `target/site/serenity` directory.
+
+### Serenity Tests
+
+The Maven-based Serenity suite (`uat`) verifies the in-memory todo application through the actor/task/question screenplay layers. `TodoSerenityBDDTests` orchestrates adding a todo item via `OpenTodoApp`/`AddTodoTask` and then asserts visibility through `TodoQuestions`, while `TodoAppTest` exercises the `TodoApp` domain directly (add, delete, snapshot). Running `mvn -Dmaven.repo.local=/tmp/maven-repo verify` under `uat` executes both the screenplay-driven integration smoke test and the accompanying unit tests.
+
+### Playwright Tests
+
+Playwright exercises the running web UI inside the `web` folder. `uat/playwright/MyFirstUAT.spec.ts` navigates to `http://localhost:3000/`, adds a todo via the UI controls, and asserts the new entry is visible. Start the static server (`python3 -m http.server 8000 --directory web`) or another host serving the same app on port 3000, then run `npm install` once in `uat/playwright` and `npx playwright test` to execute the spec and capture browser evidence.

@@ -1,6 +1,6 @@
 package com.todo.uat.actors;
 
-import net.serenitybdd.screenplay.Actor;
+import com.todo.uat.screenplay.Actor;
 
 public final class TodoActor {
 
