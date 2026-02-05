@@ -8,5 +8,9 @@ export default defineConfig({
     // Also highly recommended for UAT evidence:
     video: 'on-first-retry',
     trace: 'on',
+    launchOptions: {
+      chromiumSandbox: false,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    },
   },
 });
