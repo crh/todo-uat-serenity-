@@ -1,16 +1,7 @@
 import { defineConfig } from '@playwright/test';
+import { sharedPlaywrightConfig } from './playwright.shared';
 
 export default defineConfig({
-  use: {
-    // Options: 'off', 'on', 'only-on-failure'
-    screenshot: 'on',
-
-    // Also highly recommended for UAT evidence:
-    video: 'on-first-retry',
-    trace: 'on',
-    launchOptions: {
-      chromiumSandbox: false,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    },
-  },
+  ...sharedPlaywrightConfig,
+  testDir: __dirname,
 });
