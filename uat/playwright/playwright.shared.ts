@@ -8,7 +8,16 @@ export const sharedPlaywrightConfig = {
     trace: 'on',
     launchOptions: {
       chromiumSandbox: false,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--disable-extensions',
+        '--disable-software-rasterizer',
+        '--disable-seccomp-filter-sandbox',
+        '--remote-debugging-port=0',
+      ],
     },
   },
 };
