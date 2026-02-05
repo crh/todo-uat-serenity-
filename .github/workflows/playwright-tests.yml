@@ -22,6 +22,10 @@ jobs:
         working-directory: uat/playwright
         run: npm install
 
+      - name: Install Playwright browsers
+        working-directory: uat/playwright
+        run: npx playwright install
+
       - name: Run Playwright tests
         working-directory: uat/playwright
         run: npx playwright test
